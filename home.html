@@ -13,6 +13,7 @@
 <body>
     <div id="top-div">
         <h1>Random Color Palette Generator v.3</h1>
+        
         <div>
             <ul>
                 <li class="list active" data-filter="all">Display All</li>
@@ -24,21 +25,36 @@
         </div>
     </div>
 
-    <!-- Create section.container -->
+    <!-- Link JS file -->
+    <script src="script.js"></script>
+    
+    <!-- Click to copy -->
     <script>
-        document.write('<section class="container">');
-            for(let i=1; i<=30; i++){
-                var id = String(i);
-                document.write('<div class="box unlocked" id="_' + id + '"><i class="fa fa-unlock-alt" onclick=lock("_' + id + '");></i><p></p></div>');
-            }
-        document.write('</section>');
-    </script>
+        function copy(clicked_id){
+            // getting list of all colors
+            var color_list = document.getElementsByClassName('box');
+            console.log(clicked_id);
 
-    <!-- Onclick "REFRESH" button make section.container visible -->
-    <script>
-        $(".btn").click(function(){
-            $(".container").css("display", "flex");
-        });
+            // Get text of color
+            var text = color_list[clicked_id-1].childNodes[1].textContent;
+
+            // Display Alert box
+            var alert = color_list[clicked_id-1].childNodes[2];
+            alert.style.display = "block";
+
+            // Hide Alert box automatically
+            window.setTimeout(function(){
+                alert.style.display = "none";
+            }, 3000);
+
+            // Copying value
+            var elem = document.createElement("textarea");
+            document.body.appendChild(elem);
+            elem.value = text;
+            elem.select();
+            document.execCommand("copy");
+            document.body.removeChild(elem);
+        }
     </script>
 
     <!-- lock the clicked div -->
@@ -72,6 +88,7 @@
         const btn = document.querySelector('.btn');
         const randomColorBlock = document.querySelectorAll('.notlocked');
 
+        // Generate Random color hexcode
         function RandomHexColorCode(){
             var chars = "0123456789abcdef";
             var colorLength = 6;
@@ -85,6 +102,7 @@
             return "#" + color;
         }
 
+        // Add color
         function addColor(){
             // getting list of all colors
             var color_list = document.getElementsByClassName('box');
@@ -100,35 +118,16 @@
                 if (color_list[color].className == "box unlocked"){
                     var newColor = RandomHexColorCode();
                     color_list[color].style.backgroundColor = newColor;
-                    color_list[color].innerHTML = '<i class="fa fa-unlock-alt" onclick=lock("_' + (parseInt(color)+1) + '");></i><p>' + String(newColor) + '</p>';
+                    color_list[color].innerHTML = '<i class="fa fa-unlock-alt" onclick=lock("_' + (parseInt(color)+1) + '");></i><p onclick=copy(' + (parseInt(color)+1) + ');>' + String(newColor) + '</p><div class="alert"><strong>' + String(newColor) + ' copied</strong></div></div>';
                 }
                 else if (color_list[color].className == "box locked"){
-                    color_list[color].innerHTML = '<i class="fa fa-lock" onclick=lock("_' + (parseInt(color)+1) + '");></i><p>' + String(previousColors[color]) + '</p>';
+                    color_list[color].innerHTML = '<i class="fa fa-lock" onclick=lock("_' + (parseInt(color)+1) + '");></i><p onclick=copy(' + (parseInt(color)+1) + ');>' + String(previousColors[color]) + '</p><div class="alert"><strong>' + String(previousColors[color]) + ' copied</strong></div></div>';
                 }
             }
 
             // Empty list to get new  current color
             previousColors = [];
         }
-    </script>
-
-    <!-- Display Functionality -->
-    <script>
-        $(document).ready(function(){
-            $(".list").click(function(){
-                const value = $(this).attr("data-filter");
-                if (value == "all"){
-                    $(".box").show("1000");
-                }
-                else{
-                    $(".box").not("." + value).hide("1000");
-                    $(".box").filter("." + value).show("1000");
-                }
-
-                $(this).addClass("active").siblings().removeClass("active");
-            })
-            
-        })
     </script>
 </body>
 </html>
