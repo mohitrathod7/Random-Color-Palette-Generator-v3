@@ -4,4 +4,4 @@ It also has feature of locking your favourite color which you dont want to refre
 User can also sort colors by All, Locked and Unlocked colors.<br>
 
 
-![View Video](https://github.com/mohitrathod7/Random-Color-Palette-Generator-v3/blob/main/Random%20Color%20Palette%20Generator%20v.3.mp4?raw=true)
+![View Video](https://github.com/mohitrathod7/Random-Color-Palette-Generator-v3/blob/main/preview.gif?raw=true)
